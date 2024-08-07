@@ -4,13 +4,7 @@ import * as detectBrowser from 'detect-browser';
 import browser, { Tabs } from 'webextension-polyfill';
 import { AlertService } from '../../../shared/alert/alert.service';
 import { BookmarkHelperService } from '../../../shared/bookmark/bookmark-helper/bookmark-helper.service';
-import {
-  BaseError,
-  FailedGetPageMetadataError,
-  FailedRegisterAutoUpdatesError,
-  I18nError
-} from '../../../shared/errors/errors';
-import * as Errors from '../../../shared/errors/errors';
+import { FailedGetPageMetadataError, FailedRegisterAutoUpdatesError, I18nError } from '../../../shared/errors/errors';
 import Globals from '../../../shared/global-shared.constants';
 import { BrowserName, MessageCommand, PlatformType } from '../../../shared/global-shared.enum';
 import { I18nObject, PlatformInfo, PlatformService, WebpageMetadata } from '../../../shared/global-shared.interface';
@@ -346,12 +340,7 @@ export abstract class WebExtPlatformService implements PlatformService {
       promise = this.backgroundSvc.onMessage(message);
     }
 
-    return promise.catch((err: Error) => {
-      // Recreate the error object as webextension-polyfill wraps the object before returning it
-      const error: BaseError = new (<any>Errors)[err.message]();
-      error.logged = true;
-      throw error;
-    });
+    return promise;
   }
 
   startSyncUpdateChecks(): ng.IPromise<void> {
